@@ -1,0 +1,8 @@
+@import "tailwindcss";
+
+.mycontainer {
+  @apply container mx-auto px-20;
+}
+.active{
+  @apply text-cyan-900  font-bold underline rounded-lg px-5 py-1
+}
