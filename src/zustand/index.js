@@ -5,7 +5,8 @@ export const userApp = create((set) => ({
   usersData: null,
 
   setLogReg: (user) =>
-    set((state) => {
-      user;
-    }),
+    set((state) => ({
+      ...state,
+      user,
+    })),
 }));

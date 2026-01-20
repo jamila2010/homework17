@@ -7,9 +7,10 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import ProtectedRoutes from "./components/ProtectedRoutes";
 import Users from "./pages/Users";
+import { userApp } from "./zustand";
 
 function App() {
-  const user=false
+  const user=userApp((state)=>state.user)
   const routes = createBrowserRouter([
     {
       path: "/",
