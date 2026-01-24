@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../hooks/useAuth";
+import { Link } from "react-router-dom";
 
 function Login() {
   const { login } = useAuth();
@@ -11,8 +12,8 @@ function Login() {
     handleSubmit,
   } = useForm({ mode: "onBlur" });
 
-  const submit = (data) => {
-    loading(data);
+  const submit =async (data) => {
+    await login(data);
     reset();
   };
 
@@ -66,6 +67,14 @@ function Login() {
         <button className="rounded border bg-sky-100 px-2 py-px">
           {isSubmitting ? "Loading..." : "Log in"}
         </button>
+        <small className="justify-cetner flex flex-col items-center">
+          <Link
+            to={"/register"}
+            className="text-center text-[15px] text-blue-300 underline"
+          >
+            If you don't have an account yet - register
+          </Link>
+        </small>
       </form>
     </div>
   );

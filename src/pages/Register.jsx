@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../hooks/useAuth";
+import { Link } from "react-router-dom";
 
 function Register() {
   const [file, setFile] = useState(null);
@@ -56,7 +57,7 @@ function Register() {
           type="text"
           name="displayName"
           placeholder="Enter your name"
-          {...register("name", { required: "Name is required!" })}
+          {...register("displayName", { required: "Name is required!" })}
         />
         {errors.name && <p className="text-red-500">{errors.name.message}</p>}
         <label htmlFor="imageURL">Image:</label>
@@ -144,56 +145,18 @@ function Register() {
             )}
           </div>
         </div>
-        <h1>Gender*:</h1>
-        <div className="flex gap-4">
-          <div className="flex flex-row-reverse items-center gap-2">
-            <label htmlFor="male">Male</label>
-            <input
-              type="radio"
-              name="male"
-              className="mt-1"
-              id="male"
-              value={"male"}
-              {...register("gender", {
-                required: "Your gender helps our site work better",
-              })}
-            />
-            {errors.gender && (
-              <p className="text-red-500">{errors.gender.message}</p>
-            )}
-          </div>
-          <div className="flex flex-row-reverse items-center gap-2">
-            <label htmlFor="female">Female</label>
-            <input
-              type="radio"
-              className="mt-1"
-              id="female"
-              value={"female"}
-              name="female"
-              {...register("gender")}
-            />
-            {errors.gender && (
-              <p className="text-red-500">{errors.gender.message}</p>
-            )}
-          </div>
-          <div className="flex flex-row-reverse items-center gap-2">
-            <label htmlFor="private">Prefer not to say</label>
-            <input
-              type="radio"
-              name="private"
-              className="mt-1"
-              id="private"
-              value={"private"}
-              {...register("gender")}
-            />
-            {errors.gender && (
-              <p className="text-red-500">{errors.gender.message}</p>
-            )}
-          </div>
-        </div>
+     
         <button className="rounded border bg-sky-100 px-2 py-px">
           {isSubmitting ? "Loading..." : "Register"}
         </button>
+        <small className="flex flex-col justify-cetner items-center">
+          <Link
+            to={"/login"}
+            className="text-center text-[15px] text-blue-300 underline"
+          >
+            If you already have an account- log in
+          </Link>
+        </small>
       </form>
     </div>
   );

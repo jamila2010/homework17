@@ -11,6 +11,7 @@ import { userApp } from "./zustand";
 
 function App() {
   const user=userApp((state)=>state.user)
+  const isUser=userApp((state)=>state.isUser)
   const routes = createBrowserRouter([
     {
       path: "/",
@@ -44,7 +45,10 @@ function App() {
       element: user ? <Navigate to={"/"} />:<Login />,
     },
   ]);
-  return <RouterProvider router={routes} />;
+ 
+
+  return <RouterProvider router={routes} />
+   
 }
 
 export default App;

@@ -5,11 +5,14 @@ import {
   updateProfile,
   signInWithEmailAndPassword,
   onAuthStateChanged,
+  getAuth,
+  signOut,
 } from "firebase/auth";
 import { userApp } from "../zustand";
 
 export function useAuth() {
   const setUser = userApp((state) => state.setLogReg);
+  const setIsUser = userApp((state) => state.setIsUser);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -18,15 +21,16 @@ export function useAuth() {
     displayName,
     password,
     photoURL,
-    gender,
-    age,
+    // gender,
+    // age,
   }) => {
+    console.log(displayName)
     setLoading(true);
-    createUserWithEmailAndPassword(auth, email, password)
+    createUserWithEmailAndPassword(auth, email, password, displayName)
       .then((userCredential) => {
         const user = userCredential.user;
-        updateProfile(user, { displayName, photoURL, gender, age }).then(() => {
-          const newUser = { ...user, displayName, photoURL, gender, age };
+        updateProfile(user, { displayName, photoURL }).then(() => {
+          const newUser = { ...user, displayName, photoURL };
           setUser(newUser);
         });
         console.log(user);
@@ -59,11 +63,28 @@ export function useAuth() {
         setLoading(false);
       });
   };
-  const logout = () => {};
+  const logout = () => {
+    setLoading(true);
+    signOut(auth)
+      .then(() => {
+        toast.success("See you soon!");
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        setError(errorMessage);
+        console.log(errorCode);
+      });
+  };
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
-      setUser(user)
+      if (user) {
+        setUser(user);
+      } else {
+        setUser(null);
+      }
+      setIsUser();
     });
   }, []);
 
