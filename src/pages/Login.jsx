@@ -4,11 +4,11 @@ import { useAuth } from "../hooks/useAuth";
 import { Link } from "react-router-dom";
 
 function Login() {
-  const { login } = useAuth();
+  const { login, loading } = useAuth();
   const {
     register,
     reset,
-    formState: { errors, isSubmitting },
+    formState: { errors,  },
     handleSubmit,
   } = useForm({ mode: "onBlur" });
 
@@ -65,7 +65,7 @@ function Login() {
         </div>
 
         <button className="rounded border bg-sky-100 px-2 py-px">
-          {isSubmitting ? "Loading..." : "Log in"}
+          {loading ? "Loading..." : "Log in"}
         </button>
         <small className="justify-cetner flex flex-col items-center">
           <Link

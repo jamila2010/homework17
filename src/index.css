@@ -3,6 +3,32 @@
 .mycontainer {
   @apply container mx-auto px-20;
 }
-.active{
-  @apply text-cyan-900  font-bold underline rounded-lg px-5 py-1
+.active {
+  @apply rounded-lg px-5 py-1 font-bold text-cyan-900 underline;
 }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.navbar{
+  @apply flex items-center gap-16 text-center 
+}
+.burger{
+  display: none;
+}
+
+@media(max-width:600px){
+  .burger{
+    display:flex;
+  }
+  .navbar{
+    display:none
+  }
+  .open{
+    @apply flex-col items-center gap-16 text-center
+  }
+  
+}
+

@@ -11,7 +11,7 @@ function Register() {
     register,
     reset,
     getValues,
-    formState: { errors, isSubmitting },
+    formState: { errors,  },
     handleSubmit,
   } = useForm({ mode: "onBlur" });
 
@@ -53,7 +53,7 @@ function Register() {
       >
         <label htmlFor="displayName">Name*:</label>
         <input
-          className="w-full rounded border"
+          className="w-full rounded border px-2"
           type="text"
           name="displayName"
           placeholder="Enter your name"
@@ -68,7 +68,7 @@ function Register() {
         />
         <label htmlFor="email">Email*:</label>
         <input
-          className="w-full rounded border"
+          className="w-full rounded border px-2"
           type="email"
           name="email"
           placeholder="Enter your email"
@@ -83,7 +83,7 @@ function Register() {
         {errors.email && <p className="text-red-500">{errors.email.message}</p>}
         <label htmlFor="age">Age*:</label>
         <input
-          className="w-full rounded border"
+          className="w-full rounded border px-2"
           type="number"
           placeholder="Enter your age"
           {...register("age", {
@@ -103,7 +103,7 @@ function Register() {
           <div className="flex w-full flex-col">
             <label htmlFor="password">Password*:</label>
             <input
-              className="w-full rounded border"
+              className="w-full rounded border px-2"
               type="password"
               name="password"
               placeholder="Enter your password"
@@ -126,7 +126,7 @@ function Register() {
           <div className="flex w-full flex-col text-start">
             <label htmlFor="conpassword">Confirm password*:</label>
             <input
-              className="w-full rounded border"
+              className="w-full rounded border px-2"
               type="password"
               placeholder="Confirm your password"
               {...register("conpassword", {
@@ -147,7 +147,7 @@ function Register() {
         </div>
      
         <button className="rounded border bg-sky-100 px-2 py-px">
-          {isSubmitting ? "Loading..." : "Register"}
+          {loading ? "Loading..." : "Register"}
         </button>
         <small className="flex flex-col justify-cetner items-center">
           <Link
