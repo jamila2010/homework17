@@ -3,19 +3,25 @@ import { create } from "zustand";
 export const userApp = create((set) => ({
   user: null,
   usersData: null,
-  isUser:null,
+  isUser: null,
 
   setLogReg: (user) =>
     set((state) => ({
       ...state,
       user,
     })),
-    setIsUser:()=>{
-      set((state)=>{
-   return {
+  setIsUser: () => {
+    set((state) => {
+      return {
+        ...state,
+        isUser: true,
+      };
+    });
+  },
+  setUser: (usersData) => set((state) => (
+    {
       ...state,
-      isUser:true,
+      usersData
     }
-    },)
-    }
+  ) ),
 }));
