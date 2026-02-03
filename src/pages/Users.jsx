@@ -6,11 +6,24 @@ import { FaTrash } from "react-icons/fa";
 import { deleteUser } from "../requests";
 import { toast } from "sonner";
 import { GiCancel } from "react-icons/gi";
+import AddUserModal from "../components/AddUserModal";
+import { useAuth } from "../hooks/useAuth";
 
 function Users() {
   const usersData = userApp((state) => state.usersData);
   const setUser = userApp((state) => state.setUser);
-  const [open, setOpen] = useState(null);
+  const [showModal, setShowModal] = useState(null);
+  const [editedUser, setEditedUser] = useState(null);
+   const { loading } = useAuth();
+  useEffect(() => {
+    const handleEsc = (e) => {
+      if (e.key === "Escape") setShowModal(false);
+    };
+    if (showModal) {
+      window.addEventListener("keydown", handleEsc);
+    }
+  }, [showModal]);
+
   useEffect(() => {
     axiosInstance
       .get("/users")
@@ -30,118 +43,81 @@ function Users() {
       })
       .catch((err) => toast.error(err.message));
   };
+  const handleEdit = (user) => {
+    setEditedUser(user);
+  };
 
   return (
     <div className="flex flex-col items-center gap-5 py-10">
       <h1 className="text-2xl font-bold italic">Users' list</h1>
       <button
-        className="rounded border px-3 py-px"
+        className="cursor-pointer rounded border px-3 py-px"
         onClick={() => {
-          setOpen(true);
+          setEditedUser(false)
+          setShowModal(true);
         }}
       >
         Add user +
       </button>
       <div
         className="flex flex-wrap justify-center gap-5 px-10"
-        onClick={() => {
-          setOpen(false);
-        }}
+        
       >
-        {usersData?.map(({ id, address, name, email, company, phone }) => {
+        {loading&& <h2 className="text-xl text-center">Loading...</h2>}
+        {!usersData&& !loading && <h2>No user data available</h2>}
+        {usersData?.map((user) => {
           return (
             <div
-              key={id}
-              className="w-80 cursor-pointer rounded-sm border p-24 text-center shadow-md"
+              key={user.id}
+              className="w-80 cursor-pointer rounded-sm border px-2 py-1 shadow-md"
             >
               <button
-                className="w-full cursor-pointer hover:rotate-12 hover:text-red-600"
-                onClick={() => handleDelete({ id, name })}
+                className="cursor-pointer hover:rotate-12 hover:text-red-600"
+                onClick={() => handleDelete({ id: user.id, name: user.name })}
               >
                 <FaTrash />
               </button>
-              <h2 className="text-center text-xl font-semibold">{name} </h2>
-              <small className="flex justify-around text-[8px]">
+              <h2 className="text-center text-xl font-semibold">
+                {user.name}{" "}
+              </h2>
+              <small className="flex justify-around text-center text-[8px]">
                 <span>
                   {" "}
                   <b>email address:</b>
-                  <i> {email}</i>{" "}
+                  <i> {user.email}</i>{" "}
                 </span>
                 <span>
                   <b>phone number:</b>
-                  <i>{phone}</i>{" "}
+                  <i>{user.phone}</i>{" "}
                 </span>
               </small>
-              <p className="text-center font-medium">Company: {company.name}</p>
-              <p>Address:{address.street} St. </p>
+              <p className="text-center font-medium">
+                Company: {user.company.name}
+              </p>
+              <p className="text-center">Address:{user.address.street} St. </p>
 
-              <button className="cursor-pointer text-lg hover:text-xl active:text-lg">
+              <button
+                className="mx-auto cursor-pointer text-center text-lg hover:text-xl active:text-lg"
+                onClick={() => {
+                  setShowModal(true);
+                  handleEdit(user)
+                }}
+              >
                 {" "}
                 <FaUserEdit />{" "}
               </button>
             </div>
           );
         })}
-        {open && (
-          <div
-            className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/50"
-            onClick={(e) => (
-              
-              e.stopPropagation()
-              
-            )}
-          >
-            <button
-              className="fixed top-20 right-120 cursor-pointer text-xl text-white"
-              onClick={() => {
-                setOpen(false);
-              }}
-            >
-              <GiCancel />
-            </button>
-            <form
-              onClick={(e) => e.stopPropagation()}
-              className="z-100 flex h-100 w-[400px] flex-col gap-1 rounded border bg-white px-3"
-            >
-              <h1 className="w-full text-center text-xl font-semibold">
-                New user
-              </h1>
-              <label htmlFor="name">Name:</label>
-              <input
-                type="text"
-                className="mx-auto w-full border"
-                placeholder="Enter your name"
-              />
-              <label htmlFor="email">Email:</label>
-              <input
-                type="text"
-                className="mx-auto w-full border"
-                placeholder="Enter your email address "
-              />
-              <label htmlFor="name">Phone number:</label>
-              <input
-                type="text"
-                className="mx-auto w-full border"
-                placeholder="Enter your phone number"
-              />
-              <label htmlFor="name">Company name:</label>
-              <input
-                type="text"
-                className="mx-auto w-full border"
-                placeholder="Enter your company name"
-              />
-              <label htmlFor="name">Address:</label>
-              <input
-                type="text"
-                className="mx-auto w-full border"
-                placeholder="Enter your current address "
-              />
-              <button className="mx-auto mt-2 w-full cursor-pointer border px-3 py-1 hover:bg-amber-800/10">
-                Add
-              </button>
-            </form>
-            <h1>Modal</h1>
-          </div>
+        {showModal && (
+          <AddUserModal
+            editedUser={editedUser}
+            setEditedUser={setEditedUser}
+            onClose={() => {
+              setShowModal(false);
+            }}
+            
+          />
         )}
       </div>
     </div>
