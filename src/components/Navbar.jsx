@@ -20,7 +20,7 @@ function Navbar() {
         <GiHamburgerMenu />
       </button>
       <ul className={`w-96 navbar mt-3 lg:mt-0 ${open? "open translate-y-full flex flex-col" : "" } `}>
-        <li className="cursor-pointer rounded-lg px-5 py-1 mt-3 hover:bg-cyan-100">
+        <li className="cursor-pointer rounded-lg px-5 py-1  hover:bg-cyan-100">
           <NavLink to={"/"}>Home</NavLink>{" "}
         </li>
         <li className="cursor-pointer rounded-lg px-5 py-1 hover:bg-cyan-100">

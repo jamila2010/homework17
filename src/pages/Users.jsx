@@ -3,9 +3,8 @@ import { useEffect, useState } from "react";
 import { axiosInstance } from "../lib/axios";
 import { userApp } from "../zustand";
 import { FaTrash } from "react-icons/fa";
-import { deleteUser } from "../requests";
+import { deleteUser,  } from "../requests";
 import { toast } from "sonner";
-import { GiCancel } from "react-icons/gi";
 import AddUserModal from "../components/AddUserModal";
 import { useAuth } from "../hooks/useAuth";
 
@@ -45,6 +44,7 @@ function Users() {
   };
   const handleEdit = (user) => {
     setEditedUser(user);
+    
   };
 
   return (
@@ -63,8 +63,7 @@ function Users() {
         className="flex flex-wrap justify-center gap-5 px-10"
         
       >
-        {loading&& <h2 className="text-xl text-center">Loading...</h2>}
-        {!usersData&& !loading && <h2>No user data available</h2>}
+  
         {usersData?.map((user) => {
           return (
             <div

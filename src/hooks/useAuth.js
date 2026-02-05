@@ -11,6 +11,7 @@ import {
 import { userApp } from "../zustand";
 
 export function useAuth() {
+  const [authLoading, setAuthLoading]= useState(true)
   const setUser = userApp((state) => state.setLogReg);
   const setIsUser = userApp((state) => state.setIsUser);
   const [loading, setLoading] = useState(false);
@@ -78,15 +79,18 @@ export function useAuth() {
   };
 
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
+   
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        setUser(user);
+        setUser(user);  
       } else {
         setUser(null);
       }
       setIsUser();
+      setAuthLoading(false)
     });
+    return unsubscribe
   }, []);
 
-  return { register, login, logout, loading, error };
+  return { register, login, logout, loading, error, authLoading };
 }

@@ -124,7 +124,7 @@ function AddUserModal({ onClose, editedUser, setEditedUser }) {
         )}
         <button
           className="mx-auto mt-2 w-full cursor-pointer rounded border px-3 py-1 hover:bg-amber-800/10"
-          onClick={onClose}
+          
         >
           Save
         </button>
